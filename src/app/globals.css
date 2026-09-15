@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────
+   Design tokens.
+   Chrome (type, rules, cards) borrows Geist's restrained
+   neutral ramp. The world (train, city, sky) is deliberately
+   warmer and softer — the contrast is the whole point.
+   ─────────────────────────────────────────────────────────── */
+@theme {
+  /* Warm parchment ramp — the pixel scene is warm, so the chrome is too.
+     Geist's neutrals were too cold to sit next to it. */
+  --color-ink: #33281f;
+  --color-ink-2: #5c4c3e;
+  --color-ink-3: #85705c;
+  --color-line: #e2d5bf;
+  --color-paper: #faf2e2;
+  --color-paper-2: #fffaf0;
+
+  --color-accent: #b8563f;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-card: 14px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --bg: #faf2e2;
+  --fg: #33281f;
+  --card: rgba(255, 250, 240, 0.94);
+  --card-line: rgba(51, 40, 31, 0.16);
+  --shadow-soft: 0 2px 0 rgba(51, 40, 31, 0.1),
+    0 14px 34px -16px rgba(51, 40, 31, 0.4);
+}
+
+:root[data-theme="dark"] {
+  --bg: #1d1822;
+  --fg: #f2e6d2;
+  --card: rgba(41, 33, 45, 0.9);
+  --card-line: rgba(242, 230, 210, 0.16);
+  --shadow-soft: 0 2px 0 rgba(0, 0, 0, 0.35),
+    0 16px 40px -14px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1d1822;
+    --fg: #f2e6d2;
+    --card: rgba(41, 33, 45, 0.9);
+    --card-line: rgba(242, 230, 210, 0.16);
+    --shadow-soft: 0 2px 0 rgba(0, 0, 0, 0.35),
+      0 16px 40px -14px rgba(0, 0, 0, 0.6);
+  }
+}
+
+* {
+  border-color: var(--card-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* The scroll container is the page itself; the canvas is fixed behind it. */
+  background: var(--bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Focus ring: visible, consistent, never removed. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Skip link — first tab stop on the page. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  translate: -50% -120%;
+  z-index: 100;
+  padding: 0.6rem 1.1rem;
+  background: var(--fg);
+  color: var(--bg);
+  border-radius: 0 0 12px 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: translate 0.18s var(--ease-out-soft);
+}
+.skip-link:focus {
+  translate: -50% 0;
+}
+
+/* Frosted card surface used by carriage panels and project tiles. */
+.surface {
+  background: var(--card);
+  border: 2px solid var(--card-line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+}
+
+/* Thin rule that matches Geist's hairline dividers. */
+.hairline {
+  height: 1px;
+  background: var(--card-line);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.strip-map {
+  animation: fade-in 600ms var(--ease-out-soft) both;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ── the layered backdrop ───────────────────────────────────
+   0  canvas        the 3D ride
+   1  scene-tint    pulls the scene toward the page theme
+   2  copy-scrim    guarantees contrast under the text column
+   10 main          the actual content
+   ─────────────────────────────────────────────────────────── */
+.scene-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Nearest-neighbour upscaling. Without this the browser smooths the
+   low-resolution canvas and the pixel art turns to mush. */
+.pixel-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  object-fit: fill;
+}
+
+/* In dark mode the same daylight scene would fight white type, so the
+   whole ride is tinted down into evening instead. */
+.scene-tint {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: transparent;
+  transition: background 400ms var(--ease-out-soft);
+}
+:root[data-theme="dark"] .scene-tint {
+  background: rgba(26, 18, 32, 0.34);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .scene-tint {
+    background: rgba(26, 18, 32, 0.34);
+  }
+}
+
+/* Text sits on a busy moving city, so it gets a dedicated ground.
+   Wide screens: a wash from the left, leaving the train side clear.
+   Narrow screens: a wash from the bottom, train above the copy. */
+.copy-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--bg) 94%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 78%, transparent) 30%,
+    color-mix(in srgb, var(--bg) 24%, transparent) 56%,
+    transparent 76%
+  );
+}
+
+@media (min-width: 900px) {
+  .copy-scrim {
+    background: linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--bg) 92%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 80%, transparent) 24%,
+      color-mix(in srgb, var(--bg) 30%, transparent) 44%,
+      transparent 64%
+    );
+  }
+}
