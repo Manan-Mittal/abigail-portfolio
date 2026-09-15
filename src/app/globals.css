@@ -87,6 +87,15 @@ body {
   overflow-x: hidden;
 }
 
+/* Tailwind v4's preflight gives buttons `cursor: default`; anything that
+   acts like a control should still say so. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+a[href],
+summary {
+  cursor: pointer;
+}
+
 /* Focus ring: visible, consistent, never removed. */
 :focus-visible {
   outline: 2px solid var(--color-accent);
@@ -212,7 +221,7 @@ body {
     to top,
     color-mix(in srgb, var(--bg) 94%, transparent) 0%,
     color-mix(in srgb, var(--bg) 78%, transparent) 30%,
-    color-mix(in srgb, var(--bg) 24%, transparent) 56%,
+    color-mix(in srgb, var(--bg) 38%, transparent) 56%,
     transparent 76%
   );
 }

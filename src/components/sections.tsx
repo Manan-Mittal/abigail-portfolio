@@ -45,7 +45,7 @@ export function Hero() {
           {profile.name}
         </h1>
 
-        <p className="mt-3 font-mono text-[0.72rem] uppercase tracking-[0.16em] text-[var(--fg)]/50">
+        <p className="mt-3 font-mono text-[0.72rem] uppercase tracking-[0.16em] text-[var(--fg)]/70">
           {profile.title} · {profile.pronouns}
         </p>
 
@@ -56,19 +56,19 @@ export function Hero() {
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <Link
             href={`#car-${first.id}`}
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--fg)] px-5 py-2.5 text-sm font-medium text-[var(--bg)] transition-transform duration-200 hover:-translate-y-0.5"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--fg)] px-5 py-3 text-sm font-medium text-[var(--bg)] transition-transform duration-200 hover:-translate-y-0.5"
           >
             Ride the line
           </Link>
           <Link
             href="#contact"
-            className="inline-flex items-center gap-2 rounded-full border-2 px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--fg)]/5"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border-2 px-5 py-3 text-sm font-medium transition-colors duration-200 hover:bg-[var(--fg)]/10"
           >
             Get in touch
           </Link>
         </div>
 
-        <p className="mt-9 flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--fg)]/45">
+        <p className="mt-9 flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--fg)]/70">
           <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
           {profile.location}
         </p>
@@ -88,7 +88,7 @@ export function Toolbelt() {
           {items.map((t, i) => (
             <span
               key={`${t}-${i}`}
-              className="flex items-center gap-10 whitespace-nowrap font-mono text-[0.7rem] uppercase tracking-[0.18em] text-[var(--fg)]/55"
+              className="flex items-center gap-10 whitespace-nowrap font-mono text-[0.7rem] uppercase tracking-[0.18em] text-[var(--fg)]/72"
             >
               {t}
               <span aria-hidden="true" className="text-[var(--fg)]/25">
@@ -109,7 +109,7 @@ export function About() {
     <section data-stop="start" id="about" className="relative pb-20 pt-[30svh] sm:py-28">
       <Column>
         <div className="surface p-7 sm:p-9">
-          <h2 className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[var(--fg)]/50">
+          <h2 className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[var(--fg)]/70">
             Service notice
           </h2>
           <p className="mt-4 text-[1.1rem] leading-relaxed tracking-tight">
@@ -160,7 +160,7 @@ export function Cars() {
               <h3 className="text-[clamp(1.35rem,3.2vw,1.85rem)] font-semibold leading-tight tracking-[-0.03em]">
                 {exp.role}
               </h3>
-              <p className="mt-1.5 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-[var(--fg)]/50">
+              <p className="mt-1.5 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-[var(--fg)]/70">
                 {exp.org} · {exp.location}
               </p>
 
@@ -183,7 +183,7 @@ export function Cars() {
                 {exp.skills.map((s) => (
                   <span
                     key={s}
-                    className="rounded-full border px-3 py-1 font-mono text-[0.66rem] uppercase tracking-[0.1em] text-[var(--fg)]/60"
+                    className="rounded-full border px-3 py-1 font-mono text-[0.66rem] uppercase tracking-[0.1em] text-[var(--fg)]/75"
                   >
                     {s}
                   </span>
@@ -221,11 +221,11 @@ export function Work() {
                 <h3 className="text-[1.15rem] font-semibold tracking-[-0.02em]">
                   {p.name}
                 </h3>
-                <span className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[var(--fg)]/45">
+                <span className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[var(--fg)]/70">
                   {p.year}
                 </span>
               </div>
-              <p className="mt-1 font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[var(--fg)]/50">
+              <p className="mt-1 font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[var(--fg)]/70">
                 {p.kind}
               </p>
               <p className="mt-4 flex-1 text-[0.92rem] leading-relaxed text-[var(--fg)]/75">
@@ -235,7 +235,7 @@ export function Work() {
                 {p.tags.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full border px-2.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.08em] text-[var(--fg)]/55"
+                    className="rounded-full border px-2.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.08em] text-[var(--fg)]/72"
                   >
                     {t}
                   </span>
@@ -268,7 +268,7 @@ export function Credentials() {
 
         <div className="grid gap-5 lg:grid-cols-2">
           <div className="surface p-7">
-            <h3 className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--fg)]/50">
+            <h3 className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--fg)]/70">
               Education
             </h3>
             <ul className="mt-5 space-y-5">
@@ -278,7 +278,7 @@ export function Credentials() {
                   <p className="mt-1 text-[0.88rem] leading-snug text-[var(--fg)]/70">
                     {e.school}
                   </p>
-                  <p className="mt-1 font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[var(--fg)]/50">
+                  <p className="mt-1 font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[var(--fg)]/70">
                     {e.detail} · {e.year}
                   </p>
                 </li>
@@ -287,7 +287,7 @@ export function Credentials() {
           </div>
 
           <div className="surface p-7">
-            <h3 className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--fg)]/50">
+            <h3 className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--fg)]/70">
               Honours &amp; awards
             </h3>
             <ul className="mt-5 space-y-4">
@@ -299,7 +299,7 @@ export function Credentials() {
                   />
                   <div>
                     <p className="font-medium leading-snug tracking-tight">{h.name}</p>
-                    <p className="mt-0.5 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[var(--fg)]/50">
+                    <p className="mt-0.5 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[var(--fg)]/70">
                       {h.issuer} · {h.year}
                     </p>
                   </div>
@@ -307,7 +307,7 @@ export function Credentials() {
               ))}
             </ul>
             <div className="hairline my-6" />
-            <h3 className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--fg)]/50">
+            <h3 className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--fg)]/70">
               Languages
             </h3>
             <p className="mt-2 text-[0.92rem] text-[var(--fg)]/75">
@@ -347,7 +347,7 @@ export function Contact() {
               href={s.href}
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 rounded-full border-2 px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--fg)]/5"
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-full border-2 px-5 py-3 text-sm font-medium transition-colors duration-200 hover:bg-[var(--fg)]/10"
             >
               {s.label}
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -355,7 +355,7 @@ export function Contact() {
           ))}
         </div>
 
-        <p className="mt-14 font-mono text-[0.66rem] uppercase tracking-[0.14em] text-[var(--fg)]/40">
+        <p className="mt-14 font-mono text-[0.66rem] uppercase tracking-[0.14em] text-[var(--fg)]/70">
           Stand clear of the closing doors, please.
         </p>
       </Column>

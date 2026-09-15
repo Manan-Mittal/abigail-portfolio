@@ -34,15 +34,15 @@ export function LineProgress({ activeId }: { activeId: string }) {
       aria-label="Stops on this line"
       className="strip-map fixed right-5 top-1/2 z-30 hidden -translate-y-1/2 lg:block"
     >
-      <ol className="relative flex flex-col gap-7">
+      <ol className="relative flex flex-col gap-3">
         {/* The line itself, drawn behind the stops. */}
         <span
           aria-hidden="true"
-          className="absolute left-[7px] top-2 bottom-2 w-[3px] rounded-full bg-[var(--card-line)]"
+          className="absolute left-[7px] top-5 bottom-5 w-[3px] rounded-full bg-[var(--card-line)]"
         />
         <span
           aria-hidden="true"
-          className="absolute left-[7px] top-2 w-[3px] rounded-full transition-all duration-500"
+          className="absolute left-[7px] top-5 w-[3px] rounded-full transition-all duration-500"
           style={{
             height: `calc(${(activeIndex / Math.max(1, stops.length - 1)) * 100}% - 0px)`,
             background: routeColors[experiences[0]?.route ?? "7"],
@@ -57,7 +57,7 @@ export function LineProgress({ activeId }: { activeId: string }) {
               <a
                 href={`#${stop.anchor}`}
                 aria-current={isActive ? "true" : undefined}
-                className="group flex items-center gap-3"
+                className="group flex min-h-11 items-center gap-3 py-1"
               >
                 <span
                   className={cn(

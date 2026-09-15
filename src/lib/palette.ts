@@ -40,10 +40,34 @@ export const routeColors: Record<Route, string> = {
   S: SHUTTLE,
 };
 
-/** The yellow bullets carry black text; everything else is white.
- *  Getting this backwards is the classic giveaway of a fake bullet. */
+/** WCAG relative luminance. */
+function luminance(hex: string) {
+  const v = [0, 2, 4].map((i) => {
+    const c = parseInt(hex.slice(1 + i, 3 + i), 16) / 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+}
+
+function contrast(a: string, b: string) {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+/**
+ * Bullet glyph colour, chosen by contrast rather than hardcoded.
+ *
+ * The MTA sets black on the yellow line and white everywhere else, but
+ * white on the grey (L) and lime (G) bullets measures around 2.3:1 —
+ * unreadable. Picking whichever of black/white scores higher keeps the
+ * yellow rule (black, as it should be) and the blue and purple bullets
+ * white, while fixing the ones that are genuinely illegible.
+ */
 export function routeTextColor(route: Route) {
-  return routeColors[route] === YELLOW ? "#000000" : "#FFFFFF";
+  const bg = routeColors[route];
+  return contrast(bg, "#FFFFFF") >= contrast(bg, "#000000")
+    ? "#FFFFFF"
+    : "#000000";
 }
 
 /** R211-ish rolling stock. Stainless body, navy band, black window mask. */

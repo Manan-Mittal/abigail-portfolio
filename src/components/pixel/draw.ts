@@ -1,4 +1,5 @@
 import { P } from "./palette";
+import { routeTextColor, type Route } from "@/lib/palette";
 
 export type Ctx = CanvasRenderingContext2D;
 
@@ -362,14 +363,15 @@ export function drawCar(
 }
 
 /** The route bullet decal, drawn as a pixel disc. */
-export function drawBullet(c: Ctx, x: number, y: number, col: string, label: string) {
+export function drawBullet(c: Ctx, x: number, y: number, col: string, label: Route) {
   const r = 7;
   // Filled circle on the pixel grid.
   for (let dy = -r; dy <= r; dy++) {
     const span = Math.floor(Math.sqrt(r * r - dy * dy));
     px(c, x - span, y + dy, span * 2 + 1, 1, col);
   }
-  c.fillStyle = col === "#FCCC0A" ? "#000000" : "#FFFFFF";
+  // Same contrast-driven rule as the DOM bullets, so the two never disagree.
+  c.fillStyle = routeTextColor(label);
   c.font = "bold 9px ui-monospace, monospace";
   c.textAlign = "center";
   c.textBaseline = "middle";

@@ -291,11 +291,14 @@ export function PixelScene() {
         train.cabX +
         (rideState.targetCar < 0 ? 0 : (rideState.targetCar + 1) * PITCH);
 
-      if (!started) {
+      // Reduced motion: cut straight to the car rather than sliding to it.
+      // The slide is the one piece of motion the reader did not ask for.
+      if (!started || scrollState.reducedMotion) {
         trainX = target;
         started = true;
+      } else {
+        trainX = lerp(trainX, target, 0.12);
       }
-      trainX = lerp(trainX, target, 0.12);
 
       // A one-pixel bob. Any more and it reads as broken, not alive.
       const bob = scrollState.reducedMotion
