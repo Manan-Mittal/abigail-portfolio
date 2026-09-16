@@ -1,5 +1,7 @@
 # Abigail Alvarez — portfolio
 
+**Live:** https://manan-mittal.github.io/abigail-portfolio/
+
 A portfolio site for an urban planner, built as a subway ride. A pixel-art
 NYC elevated line scrolls past in the background; each car on the train is
 one role, painted with a real MTA route bullet.
@@ -30,6 +32,25 @@ Then open http://localhost:3000.
 > kept in the docs because npm resolves this tree strictly on some versions.
 
 Other scripts: `npm run build`, `npm run lint`.
+
+## Deploying
+
+Pushing to `main` builds and publishes to GitHub Pages via
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). The site is a
+static export (`output: "export"`), so there is no server to run.
+
+Two details that Pages needs and that are easy to get wrong:
+
+- **`basePath`.** A project site is served from `/<repo>`, not `/`, so assets
+  need that prefix or every stylesheet 404s. The workflow passes it as
+  `NEXT_PUBLIC_BASE_PATH`; it is not hardcoded, so `npm run dev` still runs at
+  the root, and moving to a custom domain is just dropping the env var.
+- **`public/.nojekyll`.** Pages runs Jekyll by default, and Jekyll ignores
+  directories beginning with an underscore — which would silently discard
+  Next's entire `_next` asset tree.
+
+Fonts are self-hosted by `next/font`, so the deployed page makes no
+third-party requests at runtime.
 
 ## Editing the content
 
